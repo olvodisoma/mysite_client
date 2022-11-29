@@ -8,7 +8,7 @@ export const Products=()=> {
 
   return (
     <div>
-    <h1>Products</h1>
+    <h1 className='mt-2'>Products</h1>
     <ul>
     {items.map(obj=>
         <li className='list-group-item btn btn-primary' key={obj.id} onClick={()=>navigate('/products/'+obj.id)}>

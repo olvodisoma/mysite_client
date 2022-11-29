@@ -55,8 +55,10 @@ export const MyNavBar=({loggedInUser,setLoggedInUser})=> {
             (
             <Nav navbar>
             <NavItem className="nav-link d-flex align-items-center">
-              <img src="hacker.png" alt="Avatar" style={{width:"30px",marginRight:"5px"}} />
+              <NavLink to="userProfile" className="nav-link">
+              <img src="hacker.png" alt="Avatar" style={{width:"20px",marginRight:"5px"}} />
               <span style={{cursor:"pointer"}}>{loggedInUser}</span>
+              </NavLink>
           </NavItem>
           <NavItem className='d-flex align-items-center'>
             <span className='btn text-info ' onClick={()=>setLoggedInUser('')}>Logout</span>

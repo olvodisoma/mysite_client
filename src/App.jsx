@@ -10,6 +10,7 @@ import {Product} from './components/Product'
 import {MyNavBar} from './components/MyNavBar'
 import {Login} from './components/Login'
 import {Register} from './components/Register'
+import {UserProfile} from './components/UserProfile'
 import {QueryClient,QueryClientProvider} from 'react-query'
 import React,{ useState } from 'react';
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='products/:id' element={<Product />}/>
         <Route path='login' element={<Login setLoggedInUser={setLoggedInUser}/>}/>
         <Route path='register' element={<Register />}/>
+       {loggedInUser && <Route path='userProfile' element={<UserProfile />}/>}
       </Routes>
     </div>
     </QueryClientProvider>
