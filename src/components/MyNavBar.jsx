@@ -51,17 +51,17 @@ export const MyNavBar=({loggedInUser,setLoggedInUser})=> {
             </UncontrolledDropdown>
             </Nav>
 
-            {loggedInUser ?
+            {loggedInUser ?.username?
             (
             <Nav navbar>
             <NavItem className="nav-link d-flex align-items-center">
               <NavLink to="userProfile" className="nav-link">
               <img src="hacker.png" alt="Avatar" style={{width:"20px",marginRight:"5px"}} />
-              <span style={{cursor:"pointer"}}>{loggedInUser}</span>
+              <span style={{cursor:"pointer"}}>{loggedInUser.username}</span>
               </NavLink>
           </NavItem>
           <NavItem className='d-flex align-items-center'>
-            <span className='btn text-info ' onClick={()=>setLoggedInUser('')}>Logout</span>
+            <span className='btn text-info ' onClick={()=>setLoggedInUser({})}>Logout</span>
           </NavItem>
             </Nav>
             )
