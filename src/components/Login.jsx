@@ -32,8 +32,8 @@ export const Login = ({setLoggedInUser}) => {
 
     const mutationLogin=useMutation(login,{
       onSuccess:(data) =>{
-        console.log(data.data.rowCount)
-        if(data.data.rowCount==0)
+        console.log("Mutation login:",data.data)
+        if(data.data?.error)
           setIsValidP(false)
         else{
           setIsValidP(true)
@@ -55,7 +55,7 @@ export const Login = ({setLoggedInUser}) => {
             onBlur={handleCheckUsername}
             onKeyPress={(e)=>e.key=='Enter' ? document.getElementById("password").focus() : ''}
         />
-        <FormFeedback>Username already exists!</FormFeedback>
+        <FormFeedback>Username incorrect!</FormFeedback>
       </FormGroup>
 
       <FormGroup>

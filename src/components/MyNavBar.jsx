@@ -61,7 +61,9 @@ export const MyNavBar=({loggedInUser,setLoggedInUser})=> {
               </NavLink>
           </NavItem>
           <NavItem className='d-flex align-items-center'>
+            <NavLink to="/">
             <span className='btn text-info ' onClick={()=>setLoggedInUser({})}>Logout</span>
+            </NavLink>
           </NavItem>
             </Nav>
             )

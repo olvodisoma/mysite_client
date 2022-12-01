@@ -1,14 +1,27 @@
 import React,{useState} from "react";
 import { FileDrop } from "./FileDrop";
+import {useMutation} from "react-query";
 import { Form,FormGroup,Label,Input,Col } from "reactstrap";
+import { updateAvatar } from "./getData";
 
 export const UserProfile = ({loggedInUser,setLoggedInUser}) => {
   const [selFile,setSelFile] = useState({})
 
-  console.log(selFile)
+  //console.log(selFile)
+
+  const mutationAvatar=useMutation(updateAvatar,{
+    onSuccess: (data) =>{
+      console.log(data)
+    }
+  })
 
   const handleUpdateAvatar=()=>{
-    
+    console.log("Ajaxot hívjuk")
+    const formdata = new FormData()
+    formdata.append("selFile",selFile)
+    formdata.append("username",loggedInUser.username)
+    formdata.append("avatar_id",loggedInUser.avatar_id)
+    mutationAvatar.mutate(formdata)
   }
   return (
     <div className="mt-3">
