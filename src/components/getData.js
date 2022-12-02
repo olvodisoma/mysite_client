@@ -30,3 +30,9 @@ export const updateAvatar = async (formdata)=>{
     )
     return await response
 }
+
+export const deleteUser = async (formdata)=>{
+    console.log("getdataban vagyunk",formdata)
+    const response = await axios.post(url+'/auth/deleteUser', formdata)
+    return await response
+}

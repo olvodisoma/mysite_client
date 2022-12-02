@@ -56,7 +56,7 @@ export const MyNavBar=({loggedInUser,setLoggedInUser})=> {
             <Nav navbar>
             <NavItem className="nav-link d-flex align-items-center">
               <NavLink to="userProfile" className="nav-link">
-              <img src="hacker.png" alt="Avatar" style={{width:"20px",marginRight:"5px"}} />
+              <img src={loggedInUser.avatar} alt="Avatar" style={{width:"20px",marginRight:"5px"}} />
               <span style={{cursor:"pointer"}}>{loggedInUser.username}</span>
               </NavLink>
           </NavItem>
