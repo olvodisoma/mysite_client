@@ -1,18 +1,16 @@
 import React,{useState} from "react";
 import { checkUsername,login } from "./getData";
 import {useMutation} from 'react-query';
-import {useNavigate} from 'react-router-dom';
 import {Form,FormGroup,Input,Label,FormFeedback,Button} from "reactstrap";
-
-
+import {useNavigate} from 'react-router-dom'
+ 
 export const Login = ({setLoggedInUser}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [isValidU, setIsValidU] = useState(null)
     const [isValidP, setIsValidP] = useState(null)
-
     const navigate=useNavigate()
-
+ 
     const mutationCheckUsername=useMutation(checkUsername,{
       onSuccess:(data)=>{
         console.log(data.data.rowCount,data.data.username)
@@ -22,28 +20,29 @@ export const Login = ({setLoggedInUser}) => {
           setIsValidU(true)
       }
     })
-
+ 
     const handleCheckUsername = () =>{
       if(username)
         mutationCheckUsername.mutate({username:username})
       else
         setIsValidU(false)
     }
-
+ 
     const mutationLogin=useMutation(login,{
       onSuccess:(data) =>{
-        console.log("Mutation login:",data.data)
+        console.log(data.data)
         if(data.data?.error)
           setIsValidP(false)
         else{
           setIsValidP(true)
-          const {username,email,avatar,avatar_id,id} = data.data
-          setLoggedInUser({username:username,email:email,avatar:avatar,avatar_id:avatar_id,id:id})
+          const {username,email,id,avatar,avatar_id} = data.data
+          setLoggedInUser({username:username,email:email,id:id,avatar:avatar,avatar_id:avatar_id})
           navigate('/')
         }
+         
       }
     })
-
+ 
   return (
     <Form className="login border p-3 shadow mt-1 rounded">
         <h3>Login Form</h3>
@@ -55,9 +54,9 @@ export const Login = ({setLoggedInUser}) => {
             onBlur={handleCheckUsername}
             onKeyPress={(e)=>e.key=='Enter' ? document.getElementById("password").focus() : ''}
         />
-        <FormFeedback>Username incorrect!</FormFeedback>
+        <FormFeedback>Username not found!</FormFeedback>
       </FormGroup>
-
+ 
       <FormGroup>
         <Label for="password">Password</Label>
         <Input type="password" className={isValidP==null ? "" : (isValidP ? "is-valid" : "is-invalid")}
@@ -67,7 +66,7 @@ export const Login = ({setLoggedInUser}) => {
         />
         <FormFeedback>Invalid password!</FormFeedback>
       </FormGroup>
-
+ 
       <div>
         <Button disabled={!isValidU || !password} color="dark"
         id="login"

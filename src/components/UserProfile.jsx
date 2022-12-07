@@ -1,49 +1,61 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { FileDrop } from "./FileDrop";
-import {useMutation} from "react-query";
-import { Form,FormGroup,Label,Input,Col,Button,Spinner } from "reactstrap";
-import { updateAvatar } from "./getData";
+import { useMutation } from "react-query";
+import { Form, FormGroup, Label, Input, Col } from "reactstrap";
+import { updateAvatar,changePassword } from "./getData";
+import { Button,Spinner } from "reactstrap"
 import { MyModal } from "./MyModal";
 
-export const UserProfile = ({loggedInUser,setLoggedInUser}) => {
-  const [selFile,setSelFile] = useState({})
-  const [msg,setMsg] = useState('')
-  const [isUploading,setIsUploading] = useState(false)
-  const [modal, setModal] = useState(false)
+export const UserProfile = ({ loggedInUser, setLoggedInUser }) => {
+  const [selFile, setSelFile] = useState({});
+  const [msg, setMsg] = useState("");
+  const [ isUploading, setIsUploading ] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [newPw,setNewPw] = useState('')
 
-  //console.log(selFile)
+  const mutationAvatar = useMutation(updateAvatar, {
+    onSuccess: (data) => {
+      console.log(data.data.msg);
+      setMsg(data.data.msg);
+      setLoggedInUser({
+        ...loggedInUser,
+        avatar: data.data.avatar,
+        avatar_id: data.data.avatar_id,
+      });
+      setIsUploading(false);
+    },
+  });
 
-  const mutationAvatar=useMutation(updateAvatar,{
-    onSuccess: (data) =>{
-      console.log(data.data.msg)
-      setMsg(data.data.msg)
-      setLoggedInUser({...loggedInUser,avatar:data.data.avatar,avatar_id:data.data.avatar_id})
-      setIsUploading(false)
-    }
-  })
-
-  const handleUpdateAvatar=()=>{
-    console.log("Ajaxot hívjuk")
+  const handleUpdateAvatar = () => {
     const formdata = new FormData()
-    formdata.append("selFile",selFile)
-    formdata.append("username",loggedInUser.username)
-    formdata.append("avatar_id",loggedInUser.avatar_id)
+    formdata.append("selFile", selFile)
+    formdata.append("username", loggedInUser.username)
+    formdata.append("avatar_id", loggedInUser.avatar_id)
     setIsUploading(true)
     mutationAvatar.mutate(formdata)
-  }
+  };
 
-  const handleDelete=()=>{
-    console.log("Törlés")
-    setModal(true)
-  }
+const handleDelete = ()=>{
+  setModal(true)
+}
 
+const handleChangePw = ()=>{
+  mutationChangePw.mutate({username:loggedInUser.username,password:newPw})
+}
+
+const mutationChangePw = useMutation(changePassword, {
+  onSuccess: (data) => {
+    setMsg(data.data.msg);
+  },
+});
 
   return (
     <div className="mt-3">
-      <h6 className="p-2 border-bottom text-center">Felhasználói fiók</h6>
-      <div className="row border p-1">
-        <div className="col-4">Email:</div>
-        <div className="col-8">{loggedInUser.email}</div>
+      <h3 className="p-2 border-bottom text-center">User Profile Settings</h3>
+      <br />
+      <div className="row border p1">
+        <span className="col-2">Email:</span>
+        <span className="col-10">{loggedInUser.email}</span>
       </div>
       <Form className="border p-2 m-2 shadow">
         <FormGroup row>
@@ -51,49 +63,51 @@ export const UserProfile = ({loggedInUser,setLoggedInUser}) => {
             New Password
           </Label>
           <Col sm={8}>
-            <Input id="pw" name="password" type="password" />
+            <Input 
+            id="pw" 
+            name="password" 
+            type="password" 
+            value={newPw} 
+            onChange={(e)=>setNewPw(e.target.value)} />
           </Col>
           <Col sm={4}>
             <Input
               type="button"
-              value="changePassword"
-              className="btn btn-primary"
-              onClick={() => console.log("Change Password...")}
+              disabled={!newPw || newPw.length<6}
+              value="Change Password"
+              onClick={handleChangePw}
             />
           </Col>
         </FormGroup>
-
         <FormGroup row>
           <FileDrop setSelFile={setSelFile} />
         </FormGroup>
-
         <FormGroup row className="justify-content-center">
           {!isUploading ? (
             <Input
               type="button"
-              className="btn btn-primary w-50 m-1"
+              className="btn w-50 m-1 btn-primary"
               value="Update Avatar"
               disabled={!selFile.name}
               onClick={handleUpdateAvatar}
             />
           ) : (
-            <Button color="primary" className="w-50 m-1" disabled>
-              <Spinner size="sm">Uploading Avatar...</Spinner>
-              <span> Loading</span>
+            <Button color="primary" className="w-50" disabled>
+              <Spinner size="sm">Uploading...</Spinner>
+              <span> Uploading</span>
             </Button>
           )}
 
           <Input
             type="button"
-            className="btn btn-danger w-50 m-1"
+            className="btn w-50 m-1 btn-danger"
             onClick={handleDelete}
-            value="Delete My Profile"
+            value="Delete User"
           />
         </FormGroup>
-        <p className="msg">{msg}</p>
+        <div className="msg text-center ">{msg}</div>
       </Form>
-      {modal && <MyModal modal={modal} setModal={setModal} username={loggedInUser.username}
-      avatar_id={loggedInUser.avatar_id} setLoggedInUser={setLoggedInUser}/>}
+      {modal && <MyModal modal={modal} setModal={setModal} setLoggedInUser={setLoggedInUser} username={loggedInUser.username} avatar_id={loggedInUser.avatar_id}/>}
     </div>
   );
 };
