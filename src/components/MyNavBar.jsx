@@ -38,17 +38,26 @@ export const MyNavBar=({loggedInUser,setLoggedInUser})=> {
             <NavItem>
               <NavLink to='products' className="nav-link">Products</NavLink>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
+            {loggedInUser?.role=='admin' && 
+            (
+              <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
-                Options
+                Admin Panel
               </DropdownToggle>
               <DropdownMenu end>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
+                <DropdownItem>Users</DropdownItem>
+                <DropdownItem>Products</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
+                <DropdownItem>
+                <NavItem>
+                  <NavLink to='books'>Books</NavLink>
+                </NavItem>
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+            )
+            }
+
             </Nav>
 
             {loggedInUser ?.username?
@@ -56,13 +65,13 @@ export const MyNavBar=({loggedInUser,setLoggedInUser})=> {
             <Nav navbar>
             <NavItem className="nav-link d-flex align-items-center">
               <NavLink to="userProfile" className="nav-link">
-              <img src={loggedInUser.avatar} alt="Avatar" style={{width:"20px",marginRight:"5px"}} />
+              <img src={loggedInUser.avatar} alt="Avatar" style={{width:"20px",marginRight:"10px"}} />
               <span style={{cursor:"pointer"}}>{loggedInUser.username}</span>
               </NavLink>
           </NavItem>
           <NavItem className='d-flex align-items-center'>
             <NavLink to="/">
-            <span className='btn text-info ' onClick={()=>setLoggedInUser({})}>Logout</span>
+            <span className='btn text-info' onClick={()=>setLoggedInUser({})}>Logout</span>
             </NavLink>
           </NavItem>
             </Nav>

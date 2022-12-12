@@ -35,8 +35,8 @@ export const Login = ({setLoggedInUser}) => {
           setIsValidP(false)
         else{
           setIsValidP(true)
-          const {username,email,id,avatar,avatar_id} = data.data
-          setLoggedInUser({username:username,email:email,id:id,avatar:avatar,avatar_id:avatar_id})
+          const {username,email,id,avatar,avatar_id,role} = data.data
+          setLoggedInUser({username:username,email:email,id:id,avatar:avatar,avatar_id:avatar_id,role:role})
           navigate('/')
         }
          

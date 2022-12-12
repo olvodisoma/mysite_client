@@ -37,3 +37,8 @@ export const changePassword= async (formdata)=>{
     const response = await axios.put(url+'/auth/changePassword',formdata)
     return await response
 }
+
+export const getBooks = async ()=>{
+    const response = await axios.get(url+'/admin/books')
+    return await response
+}

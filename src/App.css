@@ -2,7 +2,7 @@
     max-width: 250px;
 }
 .holder{
-    margin-top: 60px;
+    margin-top: 90px;
 }
 .login{
     width: 300px;
@@ -15,4 +15,8 @@
     align-items: center;
     flex-direction: column;
     width: 100vw;
+}
+Thead{
+    background-color: black;
+    color: white;
 }

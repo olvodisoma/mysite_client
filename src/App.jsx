@@ -11,6 +11,7 @@ import {MyNavBar} from './components/MyNavBar'
 import {Login} from './components/Login'
 import {Register} from './components/Register'
 import {UserProfile} from './components/UserProfile'
+import { Books } from './components/Books';
 import {QueryClient,QueryClientProvider} from 'react-query'
 import React,{ useState } from 'react';
 
@@ -18,7 +19,7 @@ const queryClient = new QueryClient()
 
 function App() {
   const [loggedInUser,setLoggedInUser] = useState({})
-  console.log(loggedInUser)
+  console.log('loggedInUser:',loggedInUser)
   return (
     <QueryClientProvider client={queryClient}>
       <MyNavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
@@ -31,8 +32,12 @@ function App() {
         <Route path='products/:id' element={<Product />}/>
         <Route path='login' element={<Login setLoggedInUser={setLoggedInUser}/>}/>
         <Route path='register' element={<Register />}/>
-       {loggedInUser?.username && <Route path='userProfile' 
+       {loggedInUser?.username && 
+       <Route path='userProfile' 
        element={<UserProfile loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>}/>}
+       {loggedInUser?.role=='admin' && 
+       <Route path='books' 
+       element={<Books />}/>}
       </Routes>
     </div>
     </QueryClientProvider>
